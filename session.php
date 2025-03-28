@@ -15,7 +15,7 @@
             $_SESSION['msg'] = "Usuário cadastrado com sucesso!";
             header('Location: index.php');
         } else {
-            echo "Erro ao cadastrar usuário. Por favor, tente novamente.";
+            $_SESSION['msg'] = "Erro ao cadastrar usuário. Por favor, tente novamente.";
         }
     }
 ?>

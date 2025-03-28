@@ -18,65 +18,85 @@
     <title>VAGGON - Agenda Eletrônica</title>
 </head>
 <body>
-    <h1>Detalhes da Atividade</h1>    
-    <h2><a href="dashboard.php" class="btn btn-danger">Voltar</a></h2>
-    <?php 
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $query = "SELECT * FROM atividades WHERE id = '$id'";
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-md">
+            <h3 class="text-light"><?= $_SESSION['user_nome'];?></h3>
+            <a href="Logout.php" class="navbar-brand btn btn-danger">Sair</a>
+        </div>
+    </nav>
 
-            $result = $conexao->query($query);
-            
-            if ($result->num_rows > 0) {
-                $userData = mysqli_fetch_assoc($result);
-    ?>
-    <div class="mb-3">
-        <label>Nome da Atividade</label>
-        <p class="form-control">
-            <?= $userData['nome']?>
-        </p>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Detalhes da Atividade
+                            <a href="dashboard.php" class="btn btn-danger float-end">Voltar</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <?php 
+                            if (isset($_GET['id'])) {
+                                $id = $_GET['id'];
+                                $query = "SELECT * FROM atividades WHERE id = '$id'";
+
+                                $result = $conexao->query($query);
+                                
+                                if ($result->num_rows > 0) {
+                                    $userData = mysqli_fetch_assoc($result);
+                        ?>
+                        <div class="mb-3">
+                            <label>Nome da Atividade</label>
+                            <p class="form-control">
+                                <?= $userData['nome']?>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Descrição da Atividade</label>
+                            <p class="form-control">
+                                <?= $userData['descricao']?>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Nome da Atividade</label>
+                            <p class="form-control">
+                                <?= $userData['nome']?>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Data de Início</label>
+                            <p class="form-control">
+                                <?= $userData['createdAt']?>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Data de Finalização</label>
+                            <p class="form-control">
+                                <?= $userData['updatedAt']?>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Status da Atividade</label>
+                            <p class="form-control">
+                                <?= $userData['status']?>
+                            </p>
+                        </div>
+
+                        <?php
+                                } else {
+                                    echo "<h5>Tarefa não encontrada!</h5>";
+                                }
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label>Descrição da Atividade</label>
-        <p class="form-control">
-            <?= $userData['descricao']?>
-        </p>
-    </div>
-
-    <div class="mb-3">
-        <label>Nome da Atividade</label>
-        <p class="form-control">
-            <?= $userData['nome']?>
-        </p>
-    </div>
-
-    <div class="mb-3">
-        <label>Data de Início</label>
-        <p class="form-control">
-            <?= $userData['createdAt']?>
-        </p>
-    </div>
-
-    <div class="mb-3">
-        <label>Data de Finalização</label>
-        <p class="form-control">
-            <?= $userData['updatedAt']?>
-        </p>
-    </div>
-
-    <div class="mb-3">
-        <label>Status da Atividade</label>
-        <p class="form-control">
-            <?= $userData['status']?>
-        </p>
-    </div>
-
-    <?php
-            } else {
-                echo "<h5>Tarefa não encontrada!</h5>";
-            }
-        }
-    ?>
 </body>
 </html>

@@ -19,70 +19,89 @@
     <title>VAGGON - Agenda Eletrônica</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
-    <a href="Logout.php">Sair</a>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-md">
+            <h3 class="text-light"><?= $_SESSION['user_nome'];?></h3>
+            <a href="Logout.php" class="navbar-brand btn btn-danger">Sair</a>
+        </div>
+    </nav>
 
-    <?php
-    if(isset($_SESSION['msg'])){
-        echo $_SESSION['msg'];
-        unset($_SESSION['msg']);
-    }
+    <?php 
+        if(isset($_SESSION['msg'])):
     ?>
-    <span id="msg"></span>
+        <div class="alert alert-warning" id="msg"><?= $_SESSION['msg'] ?></div>
+    <?php 
+        unset($_SESSION['msg']);
+        endif;
+    ?>
 
-    <a href="criar-atividade.php" class="btn btn-primary float-end">Criar Atividade</a>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Dashboard
+                            <a href="criar-atividade.php" class="btn btn-primary float-end">Criar Atividade</a>
+                        </h2>
+                    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Atividade</th>
-                <th>Descrição</th>
-                <th>Data de Ínicio</th>
-                <th>Data de Finalização</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php 
-                $listTasks = "SELECT * FROM atividades WHERE user_id = '{$_SESSION['user_id']}'";
-                $atividades = mysqli_query($conexao, $listTasks);
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Atividade</th>
+                                    <th>Descrição</th>
+                                    <th>Data de Ínicio</th>
+                                    <th>Data de Finalização</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                    $listTasks = "SELECT * FROM atividades WHERE user_id = '{$_SESSION['user_id']}'";
+                                    $atividades = mysqli_query($conexao, $listTasks);
 
-                if (mysqli_num_rows($atividades) > 0){
-                    foreach ($atividades as $atividade){
-                        extract($atividade);
-            ?>
-            <tr>
-                <td><?= $id ?></td>
-                <td><?= $nome ?></td>
-                <td><?= $descricao ?></td>
-                <td><?= date('d/m/Y H:i:s', strtotime($createdAt)) ?></td>
-                <td>
-                    <?php 
-                    if (!empty($updatedAt) && $updatedAt != '0000-00-00 00:00:00') {
-                        echo date('d/m/Y H:i:s', strtotime($updatedAt));
-                    } else {
-                        echo '<span class="text-muted">Não atualizado</span>';
-                    }
-                    ?>
-                </td>
-                <td><?= $status ?></td>
-                <td>
-                    <a href="view-atividade.php?id=<?= $atividade['id'] ?>" class="btn btn-primary btn-sm">Visualizar</a>
-                    <a href="edit-atividade.php?id=<?= $atividade['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                    <form action="atividade.php" method="post" class="d-inline">
-                        <button type="submit" value="<?= $atividade['id'] ?>" name="DeleteAtivity" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Deletar</button>
-                    </form>
-                </td>
-            </tr>
-            <?php 
-                    }
-                } else {
-                    echo '<h5>Numnha Tarefa Encontrada!</h5>';
-                }
-            ?>
-        </tbody>
-    </table>
+                                    if (mysqli_num_rows($atividades) > 0){
+                                        foreach ($atividades as $atividade){
+                                            extract($atividade);
+                                ?>
+                                <tr>
+                                    <td><?= $id ?></td>
+                                    <td><?= $nome ?></td>
+                                    <td><?= $descricao ?></td>
+                                    <td><?= date('d/m/Y H:i:s', strtotime($createdAt)) ?></td>
+                                    <td>
+                                        <?php 
+                                        if (!empty($updatedAt) && $updatedAt != '0000-00-00 00:00:00') {
+                                            echo date('d/m/Y H:i:s', strtotime($updatedAt));
+                                        } else {
+                                            echo '<span class="text-muted">Não atualizado</span>';
+                                        }
+                                        ?>
+                                    </td>
+                                    <td><?= $status ?></td>
+                                    <td>
+                                        <a href="view-atividade.php?id=<?= $atividade['id'] ?>" class="btn btn-primary btn-sm">Visualizar</a>
+                                        <a href="edit-atividade.php?id=<?= $atividade['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
+                                        <form action="atividade.php" method="post" class="d-inline">
+                                            <button type="submit" value="<?= $atividade['id'] ?>" name="DeleteAtivity" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?')">Deletar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php 
+                                        }
+                                    } else {
+                                        echo '<h5>Numnha Tarefa Encontrada!</h5>';
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
