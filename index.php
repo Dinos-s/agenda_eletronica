@@ -46,6 +46,9 @@
                             <p class="small text-muted">
                                 Caso não tenha cadastro, clique <a href="./CadUsers.php" class="text-primary">aqui</a>
                             </p>
+                            <p class="small text-muted">
+                                Esquecia a senha, clique <a href="./EsqueciSenha.php" class="text-primary">aqui</a>
+                            </p>
                         </div>
                     </div>
                 </div>
